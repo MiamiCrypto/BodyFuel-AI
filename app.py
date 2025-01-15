@@ -11,7 +11,8 @@ st.write("An AI-powered app to help you calculate your macros, generate meal pla
 # User Inputs
 st.header("Enter Your Details")
 weight_lb = st.number_input("Weight (lbs)", min_value=66, max_value=440, value=154)
-height_in = st.number_input("Height (inches)", min_value=40, max_value=100, value=68)
+height_ft = st.number_input("Height (feet)", min_value=3, max_value=8, value=5)
+height_in = st.number_input("Height (inches)", min_value=0, max_value=11, value=7)
 age = st.number_input("Age", min_value=10, max_value=100, value=25)
 gender = st.selectbox("Gender", ["Male", "Female"])
 worked_out_today = st.selectbox(
@@ -26,7 +27,7 @@ dietary_preference = st.selectbox("Dietary Preference", ["Regular", "Vegan", "Ve
 
 # Convert weight to kg and height to cm
 weight = weight_lb * 0.453592  # 1 lb = 0.453592 kg
-height = height_in * 2.54      # 1 inch = 2.54 cm
+height = (height_ft * 12 + height_in) * 2.54  # Convert feet and inches to cm
 
 # Calculate Basal Metabolic Rate (BMR)
 if gender == "Male":
