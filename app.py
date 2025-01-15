@@ -77,33 +77,30 @@ if st.button("Generate Meal Plan"):
         f"You are a professional nutrition assistant. Generate a detailed meal plan for a person whose goal is {goal.lower()}, "
         f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
         "Provide the meal plan for breakfast, lunch, dinner, and snacks. Each meal should include a short description, "
-        "the list of ingredients, and step-by-step preparation instructions.\n\n"
-        "Example format:\n"
-        "Breakfast:\n"
-        "- Description: Oatmeal with fresh fruits.\n"
-        "- Ingredients: Oats, milk, banana, strawberries.\n"
-        "- Instructions: Cook the oats in milk, then add sliced banana and strawberries on top.\n\n"
-        "Now generate a similar meal plan tailored to the user's requirements."
+        "the list of ingredients, and step-by-step preparation instructions."
     )
 
     try:
         response = client.chat.completions.create(
             model=model,
-            messages=[],
+            messages=[{"role": "system", "content": prompt}],
             max_tokens=512,
             temperature=0.7,
             top_p=0.7,
             top_k=50,
             repetition_penalty=1,
-            stream=False
+            stream=True
         )
 
-        # Check for response and display the result
-        if response and "choices" in response:
-            result = response["choices"][0]["delta"]["content"]
-            st.subheader("Generated Meal Plan")
-            st.write(result)
-        else:
-            st.error(f"API Error: {response}")
+        # Stream response and display the result
+        result = ""
+        for token in response:
+            if hasattr(token, "choices"):
+                result += token.choices[0].delta.content
+                st.write(result)
+
+        st.subheader("Generated Meal Plan")
+        st.write(result)
+
     except Exception as e:
         st.error(f"Unexpected error: {e}")
