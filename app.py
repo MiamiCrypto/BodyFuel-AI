@@ -4,6 +4,18 @@ from together import Together
 # Set up the Streamlit app
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
+# Inject Open Graph metadata
+st.markdown(
+    """
+    <meta property="og:title" content="BodyFuel AI · Streamlit" />
+    <meta property="og:description" content="Calculate your macros, generate meal plans, and create grocery lists tailored to your fitness goals." />
+    <meta property="og:image" content="https://your-public-logo-url.com/body-fuel-logo.png" />
+    <meta property="og:url" content="https://bodyfuel-ai.streamlit.app/" />
+    <meta property="og:type" content="website" />
+    """,
+    unsafe_allow_html=True
+)
+
 # Display logo at the top (centered and resized)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
@@ -88,12 +100,12 @@ if st.button("Generate Meal Plan"):
         max_tokens = 170 * 3  # 220 tokens per recipe, 3 recipes
     else:
         prompt = (
-            f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. Make each recipe unique and different from the others, including varying ingredients, preparation styles, and regional flavors. Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. Provide approximate cooking times and tips for beginners where relevant."
-            f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
+            f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
+            f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. Make each recipe unique and different from the others, including varying ingredients, preparation styles, and regional flavors. "
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 256 * 2  # 240 tokens per recipe, 2 recipes  # 250 tokens per recipe, 2 recipes  # 260 tokens per recipe, 2 recipes
+        max_tokens = 240 * 2  # 240 tokens per recipe, 2 recipes
 
     try:
         response = client.chat.completions.create(
@@ -103,7 +115,7 @@ if st.button("Generate Meal Plan"):
             temperature=0.8,
             top_p=0.85,
             top_k=60,
-            repetition_penalty=1,
+            repetition_penalty=1.1,
             stream=True
         )
 
@@ -119,4 +131,5 @@ if st.button("Generate Meal Plan"):
 
     except Exception as e:
         st.error(f"Unexpected error: {e}")
+
 
