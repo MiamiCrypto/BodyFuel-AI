@@ -1,5 +1,5 @@
 import streamlit as st
-import requests
+from together import Together
 
 # Set up the Streamlit app
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
@@ -68,32 +68,32 @@ st.write(f"Carbs: {carbs:.0f}g")
 st.header("AI-Generated Meal Plan")
 
 if st.button("Generate Meal Plan"):
-    # Together.ai API configuration
-    API_URL = "https://api.together.ai/generate"
-    API_KEY = st.secrets["together_ai_key"]  # Add your Together.ai API key in Streamlit Cloud
+    # Initialize Together.ai client
+    client = Together()
 
-    # API payload
-    payload = {
-        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-        "prompt": f"Generate a detailed meal plan for {goal.lower()} with {calories:.0f} kcal per day. "
-                  f"The meal plan should be suitable for a {dietary_preference.lower()} diet and include "
-                  "breakfast, lunch, dinner, and snacks. Provide the ingredients and step-by-step instructions for each meal.",
-        "temperature": 0.7,
-        "top_p": 0.9,
-        "top_k": 40,
-        "max_tokens": 512,
-        "repetition_penalty": 1.1
-    }
+    # API request parameters
+    model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+    prompt = (
+        f"Generate a detailed meal plan for {goal.lower()} with {calories:.0f} kcal per day. "
+        f"The meal plan should be suitable for a {dietary_preference.lower()} diet and include "
+        "breakfast, lunch, dinner, and snacks. Provide the ingredients and step-by-step instructions for each meal."
+    )
 
-    headers = {"Authorization": f"Bearer {API_KEY}"}
-    response = requests.post(API_URL, json=payload, headers=headers)
+    response = client.chat.completions.create(
+        model=model,
+        messages=[],
+        max_tokens=512,
+        temperature=0.7,
+        top_p=0.7,
+        top_k=50,
+        repetition_penalty=1,
+        stream=False
+    )
 
-    if response.status_code == 200:
-        try:
-            result = response.json()["choices"][0]["text"]
-            st.subheader("Generated Meal Plan")
-            st.write(result)
-        except (KeyError, IndexError) as e:
-            st.error(f"Unexpected response format: {response.json()}")
+    # Check for response and display the result
+    if response and "choices" in response:
+        result = response["choices"][0]["delta"]["content"]
+        st.subheader("Generated Meal Plan")
+        st.write(result)
     else:
-        st.error(f"API Error: {response.status_code} - {response.text}")
+        st.error("Failed to generate the meal plan. Please try again.")
