@@ -68,8 +68,8 @@ st.write(f"Carbs: {carbs:.0f}g")
 st.header("AI-Generated Meal Plan")
 
 if st.button("Generate Meal Plan"):
-    # Initialize Together.ai client
-    client = Together()
+    # Initialize Together.ai client with API key
+    client = Together(api_key=st.secrets["together_api_key"])
 
     # API request parameters
     model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
