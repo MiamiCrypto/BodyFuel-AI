@@ -79,21 +79,24 @@ if st.button("Generate Meal Plan"):
         "breakfast, lunch, dinner, and snacks. Provide the ingredients and step-by-step instructions for each meal."
     )
 
-    response = client.chat.completions.create(
-        model=model,
-        messages=[],
-        max_tokens=512,
-        temperature=0.7,
-        top_p=0.7,
-        top_k=50,
-        repetition_penalty=1,
-        stream=False
-    )
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[],
+            max_tokens=512,
+            temperature=0.7,
+            top_p=0.7,
+            top_k=50,
+            repetition_penalty=1,
+            stream=False
+        )
 
-    # Check for response and display the result
-    if response and "choices" in response:
-        result = response["choices"][0]["delta"]["content"]
-        st.subheader("Generated Meal Plan")
-        st.write(result)
-    else:
-        st.error("Failed to generate the meal plan. Please try again.")
+        # Check for response and display the result
+        if response and "choices" in response:
+            result = response["choices"][0]["delta"]["content"]
+            st.subheader("Generated Meal Plan")
+            st.write(result)
+        else:
+            st.error(f"API Error: {response}")
+    except Exception as e:
+        st.error(f"Unexpected error: {e}")
