@@ -85,7 +85,7 @@ if st.button("Generate Meal Plan"):
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 220 * 3  # 220 tokens per recipe, 3 recipes
+        max_tokens = 170 * 3  # 220 tokens per recipe, 3 recipes
     else:
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
@@ -93,7 +93,7 @@ if st.button("Generate Meal Plan"):
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 250 * 2  # 260 tokens per recipe, 2 recipes
+        max_tokens = 250 * 2  # 240 tokens per recipe, 2 recipes  # 250 tokens per recipe, 2 recipes  # 260 tokens per recipe, 2 recipes
 
     try:
         response = client.chat.completions.create(
