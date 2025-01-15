@@ -4,15 +4,13 @@ from together import Together
 # Set up the Streamlit app
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
-# Create empty columns for centering
+# Display logo at the top (centered and resized)
 col1, col2, col3 = st.columns([1, 2, 1])
-
-# Use the middle column to display the image
 with col2:
     st.image("body-fuel-logo.png", width=350, caption="")
 
 # Title and description
-st.title("Macro Calculator & Meal Planner")
+st.title("BodyFuel AI - Macro Calculator & Meal Planner")
 st.write("An AI-powered app to help you calculate your macros, generate meal plans, and create grocery lists tailored to your fitness goals.")
 
 # User Inputs
@@ -84,7 +82,8 @@ if st.button("Generate Meal Plan"):
     prompt = (
         f"You are a professional nutrition assistant. Generate exactly 3 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
         f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-        "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions. Please keep the responses concise."
+        "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
+        "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
     )
 
     try:
