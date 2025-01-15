@@ -85,7 +85,7 @@ if st.button("Generate Meal Plan"):
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        #max_tokens = 170 * 3  # 170 tokens per recipe, 3 recipes
+        max_tokens = 170 * 3  # 170 tokens per recipe, 3 recipes
     else:
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
@@ -93,17 +93,17 @@ if st.button("Generate Meal Plan"):
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        #max_tokens = 250 * 2  # 250 tokens per recipe, 2 recipes  # 250 tokens per recipe, 2 recipes  # 260 tokens per recipe, 2 recipes
+        max_tokens = 240 * 2  # 240 tokens per recipe, 2 recipes
 
     try:
         response = client.chat.completions.create(
             model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
             messages=[{"role": "system", "content": prompt}],
-            max_tokens=512,
-            temperature=0.7,
-            top_p=0.7,
+            max_tokens=max_tokens,
+            temperature=0.9,  # Increase creativity
+            top_p=0.8,  # Encourage variability
             top_k=50,
-            repetition_penalty=1,
+            repetition_penalty=1.1,  # Reduce repetitive responses
             stream=True
         )
 
