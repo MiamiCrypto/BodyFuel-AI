@@ -83,14 +83,14 @@ if st.button("Generate Meal Plan"):
             f"You are a professional nutrition assistant. Generate exactly 1 breakfast, 1 lunch, and 1 dinner recipe option for a person whose goal is {goal.lower()}, "
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
             "Each recipe should include a short description, the list of ingredients, and concise step-by-step preparation instructions that are easy to understand and follow. "
-            "Keep the instructions clear and brief, and include any essential tips for beginners."
+            "Limit each recipe to approximately 150 tokens to ensure completeness and balance."
         )
     else:
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
             "Each recipe should include a short description, the list of ingredients, and concise step-by-step preparation instructions that are easy to understand and follow. "
-            "Ensure the instructions are clear and brief, and focus on essential steps."
+            "Limit each recipe to approximately 200 tokens to ensure completeness and balance."
         )
 
     try:
