@@ -50,6 +50,14 @@ workout_multiplier = {
 }
 tdee = bmr * workout_multiplier[worked_out_today]
 
+# Adjust calories based on goal
+if goal == "Lose Fat":
+    calories = tdee - 500
+elif goal == "Build Muscle":
+    calories = tdee + 500
+else:
+    calories = tdee
+
 st.subheader(f"Your daily calorie needs: {calories:.0f} kcal")
 
 # Macro breakdown
@@ -74,15 +82,15 @@ if st.button("Generate Meal Plan"):
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 1 breakfast, 1 lunch, and 1 dinner recipe option for a person whose goal is {goal.lower()}, "
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-            "Each recipe should include a short description, the list of ingredients, and concise step-by-step preparation instructions that are easy to understand and follow. "
-            "Limit each recipe to approximately 140 tokens to ensure completeness and balance."
+            "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
+            "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
         )
     else:
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-            "Each recipe should include a short description, the list of ingredients, and concise step-by-step preparation instructions that are easy to understand and follow. "
-            "Limit each recipe to approximately 180 tokens to ensure completeness and balance."
+            "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
+            "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
         )
 
     try:
