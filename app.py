@@ -74,9 +74,16 @@ if st.button("Generate Meal Plan"):
     # API request parameters
     model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
     prompt = (
-        f"Generate a detailed meal plan for {goal.lower()} with {calories:.0f} kcal per day. "
-        f"The meal plan should be suitable for a {dietary_preference.lower()} diet and include "
-        "breakfast, lunch, dinner, and snacks. Provide the ingredients and step-by-step instructions for each meal."
+        f"You are a professional nutrition assistant. Generate a detailed meal plan for a person whose goal is {goal.lower()}, "
+        f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
+        "Provide the meal plan for breakfast, lunch, dinner, and snacks. Each meal should include a short description, "
+        "the list of ingredients, and step-by-step preparation instructions.\n\n"
+        "Example format:\n"
+        "Breakfast:\n"
+        "- Description: Oatmeal with fresh fruits.\n"
+        "- Ingredients: Oats, milk, banana, strawberries.\n"
+        "- Instructions: Cook the oats in milk, then add sliced banana and strawberries on top.\n\n"
+        "Now generate a similar meal plan tailored to the user's requirements."
     )
 
     try:
