@@ -82,18 +82,18 @@ if st.button("Generate Meal Plan"):
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 1 breakfast, 1 lunch, and 1 dinner recipe option for a person whose goal is {goal.lower()}, "
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-            "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
-            "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
+            "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
+            "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 200 * 3  # 200 tokens per recipe, 3 recipes
+        max_tokens = 220 * 3  # 220 tokens per recipe, 3 recipes
     else:
         prompt = (
             f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-            "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
-            "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
+            "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
+            "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 300 * 2  # 300 tokens per recipe, 2 recipes
+        max_tokens = 260 * 2  # 260 tokens per recipe, 2 recipes
 
     try:
         response = client.chat.completions.create(
