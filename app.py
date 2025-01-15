@@ -5,14 +5,7 @@ from together import Together
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
 # Display logo at the top (centered and resized)
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="body-fuel-logo.png" alt="BodyFuel AI Logo" style="width: 500px;">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.image("body-fuel-logo.png", width=1000, caption="BodyFuel AI Logo")
 
 # Title and description
 st.title("BodyFuel AI - Macro Calculator & Meal Planner")
