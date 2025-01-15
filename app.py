@@ -12,7 +12,7 @@ with col2:
     st.image("body-fuel-logo.png", width=350, caption="")
 
 # Title and description
-st.title("BodyFuel AI - Macro Calculator & Meal Planner")
+st.title("Macro Calculator & Meal Planner")
 st.write("An AI-powered app to help you calculate your macros, generate meal plans, and create grocery lists tailored to your fitness goals.")
 
 # User Inputs
