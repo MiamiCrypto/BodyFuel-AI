@@ -7,7 +7,7 @@ st.set_page_config(page_title="BodyFuel AI", layout="centered")
 # Display logo at the top (centered and resized)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("body-fuel-logo.png", width=350, caption="")
+    st.image("body-fuel-logo.png", width=400, caption="")
 
 # Title and description
 st.title("Macro Calculator & Meal Planner")
