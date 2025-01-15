@@ -14,9 +14,9 @@ weight_lb = st.number_input("Weight (lbs)", min_value=66, max_value=440, value=1
 height_in = st.number_input("Height (inches)", min_value=40, max_value=100, value=68)
 age = st.number_input("Age", min_value=10, max_value=100, value=25)
 gender = st.selectbox("Gender", ["Male", "Female"])
-activity_level = st.selectbox(
-    "Activity Level",
-    ["Sedentary", "Lightly active", "Moderately active", "Very active", "Extra active"]
+worked_out_today = st.selectbox(
+    "Did you work out today?",
+    ["No", "Light workout", "Moderate workout", "Intense workout"]
 )
 goal = st.selectbox(
     "Goal",
@@ -34,15 +34,14 @@ if gender == "Male":
 else:
     bmr = 10 * weight + 6.25 * height - 5 * age - 161
 
-# Adjust BMR based on activity level
-activity_multiplier = {
-    "Sedentary": 1.2,
-    "Lightly active": 1.375,
-    "Moderately active": 1.55,
-    "Very active": 1.725,
-    "Extra active": 1.9
+# Adjust BMR based on workout intensity
+workout_multiplier = {
+    "No": 1.2,
+    "Light workout": 1.375,
+    "Moderate workout": 1.55,
+    "Intense workout": 1.725
 }
-tdee = bmr * activity_multiplier[activity_level]
+tdee = bmr * workout_multiplier[worked_out_today]
 
 # Adjust calories based on goal
 if goal == "Lose Fat":
@@ -89,8 +88,11 @@ if st.button("Generate Meal Plan"):
     response = requests.post(API_URL, json=payload, headers=headers)
 
     if response.status_code == 200:
-        result = response.json()["choices"][0]["text"]
-        st.subheader("Generated Meal Plan")
-        st.write(result)
+        try:
+            result = response.json()["choices"][0]["text"]
+            st.subheader("Generated Meal Plan")
+            st.write(result)
+        except (KeyError, IndexError) as e:
+            st.error(f"Unexpected response format: {response.json()}")
     else:
-        st.error("Failed to generate the meal plan. Please try again.")
+        st.error(f"API Error: {response.status_code} - {response.text}")
