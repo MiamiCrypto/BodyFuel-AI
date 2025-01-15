@@ -24,6 +24,7 @@ goal = st.selectbox(
     ["Lose Fat", "Maintain Weight", "Build Muscle"]
 )
 dietary_preference = st.selectbox("Dietary Preference", ["Regular", "Vegan", "Vegetarian", "Keto", "Paleo"])
+meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "All"])
 
 # Convert weight to kg and height to cm
 weight = weight_lb * 0.453592  # 1 lb = 0.453592 kg
@@ -74,10 +75,9 @@ if st.button("Generate Meal Plan"):
     # API request parameters
     model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
     prompt = (
-        f"You are a professional nutrition assistant. Generate a detailed meal plan for a person whose goal is {goal.lower()}, "
+        f"You are a professional nutrition assistant. Generate a detailed {meal_type.lower()} meal plan for a person whose goal is {goal.lower()}, "
         f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-        "Provide the meal plan for breakfast, lunch, dinner, and snacks. Each meal should include a short description, "
-        "the list of ingredients, and step-by-step preparation instructions."
+        "Provide the meal with a short description, the list of ingredients, and step-by-step preparation instructions."
     )
 
     try:
@@ -99,7 +99,7 @@ if st.button("Generate Meal Plan"):
                 result += token.choices[0].delta.content
                 st.write(result)
 
-        st.subheader("Generated Meal Plan")
+        st.subheader(f"Generated {meal_type} Meal Plan")
         st.write(result)
 
     except Exception as e:
