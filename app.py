@@ -85,25 +85,25 @@ if st.button("Generate Meal Plan"):
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 170 * 3  # 170 tokens per recipe, 3 recipes
+        max_tokens = 170 * 3  # 220 tokens per recipe, 3 recipes
     else:
         prompt = (
-            f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
+            f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. Make each recipe unique and different from the others, including varying ingredients, preparation styles, and regional flavors. Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. Provide approximate cooking times and tips for beginners where relevant."
             f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 240 * 2  # 240 tokens per recipe, 2 recipes
+        max_tokens = 250 * 2  # 240 tokens per recipe, 2 recipes  # 250 tokens per recipe, 2 recipes  # 260 tokens per recipe, 2 recipes
 
     try:
         response = client.chat.completions.create(
             model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
             messages=[{"role": "system", "content": prompt}],
             max_tokens=max_tokens,
-            temperature=0.9,  # Increase creativity
-            top_p=0.8,  # Encourage variability
-            top_k=50,
-            repetition_penalty=1.1,  # Reduce repetitive responses
+            temperature=0.8,
+            top_p=0.85,
+            top_k=60,
+            repetition_penalty=1,
             stream=True
         )
 
@@ -119,3 +119,4 @@ if st.button("Generate Meal Plan"):
 
     except Exception as e:
         st.error(f"Unexpected error: {e}")
+
