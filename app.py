@@ -92,13 +92,13 @@ if st.button("Generate Meal Plan"):
             stream=True
         )
 
-        # Stream response and display the result
+        # Stream response and accumulate the result
         result = ""
         for token in response:
             if hasattr(token, "choices"):
                 result += token.choices[0].delta.content
-                st.write(result)
 
+        # Display the final accumulated result
         st.subheader(f"Generated {meal_type} Meal Plan")
         st.write(result)
 
