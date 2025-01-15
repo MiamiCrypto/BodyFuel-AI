@@ -9,7 +9,7 @@ col1, col2, col3 = st.columns([1, 2, 1])
 
 # Use the middle column to display the image
 with col2:
-    st.image("body-fuel-logo.png", width=300, caption="BodyFuel AI Logo")
+    st.image("body-fuel-logo.png", width=350, caption="")
 
 # Title and description
 st.title("BodyFuel AI - Macro Calculator & Meal Planner")
