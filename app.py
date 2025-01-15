@@ -7,7 +7,7 @@ st.set_page_config(page_title="BodyFuel AI", layout="centered")
 # Display logo at the top (centered and resized)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.image("body-fuel-logo.png", width=375, caption="")
+    st.image("body-fuel-logo.png", width=350, caption="")
 
 # Title and description
 st.title("Macro Calculator & Meal Planner")
@@ -77,20 +77,27 @@ if st.button("Generate Meal Plan"):
     # Initialize Together.ai client with API key
     client = Together(api_key=st.secrets["together_api_key"])
 
-    # API request parameters
-    model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
-    prompt = (
-        f"You are a professional nutrition assistant. Generate exactly 3 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
-        f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-        "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
-        "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
-    )
+    # Determine prompt and number of recipes based on meal type
+    if meal_type == "All":
+        prompt = (
+            f"You are a professional nutrition assistant. Generate exactly 1 breakfast, 1 lunch, and 1 dinner recipe option for a person whose goal is {goal.lower()}, "
+            f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
+            "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
+            "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
+        )
+    else:
+        prompt = (
+            f"You are a professional nutrition assistant. Generate exactly 2 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
+            f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
+            "Each recipe should include a short description, the list of ingredients, and detailed step-by-step preparation instructions that are easy to understand and follow. "
+            "Ensure the instructions are clear, provide approximate cooking times, and include any helpful tips for beginners."
+        )
 
     try:
         response = client.chat.completions.create(
-            model=model,
+            model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
             messages=[{"role": "system", "content": prompt}],
-            max_tokens=700,
+            max_tokens=512,
             temperature=0.7,
             top_p=0.7,
             top_k=50,
