@@ -5,7 +5,7 @@ from together import Together
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
 # Display logo at the top (centered and resized)
-st.image("body-fuel-logo.png", width=1000, caption="BodyFuel AI Logo")
+st.image("body-fuel-logo.png", width=500, caption="BodyFuel AI Logo")
 
 # Title and description
 st.title("BodyFuel AI - Macro Calculator & Meal Planner")
