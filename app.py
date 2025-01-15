@@ -1,14 +1,71 @@
 import streamlit as st
 import requests
 
-# Streamlit UI setup
-st.title("BodyFuel AI - AI-Powered Meal Planner")
-st.write("Get a personalized meal plan tailored to your fitness goals using AI.")
+# Set up the Streamlit app
+st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
-# User inputs
-goal = st.selectbox("Select Your Goal", ["Fat Loss", "Muscle Gain", "Maintenance"])
-calories = st.number_input("Enter Your Daily Caloric Intake", min_value=1000, max_value=4000, value=2000)
-dietary_preference = st.selectbox("Select Dietary Preference", ["Regular", "Vegan", "Vegetarian", "Keto", "Paleo"])
+# Title and description
+st.title("BodyFuel AI - Macro Calculator & Meal Planner")
+st.write("An AI-powered app to help you calculate your macros, generate meal plans, and create grocery lists tailored to your fitness goals.")
+
+# User Inputs
+st.header("Enter Your Details")
+weight_lb = st.number_input("Weight (lbs)", min_value=66, max_value=440, value=154)
+height_in = st.number_input("Height (inches)", min_value=40, max_value=100, value=68)
+age = st.number_input("Age", min_value=10, max_value=100, value=25)
+gender = st.selectbox("Gender", ["Male", "Female"])
+activity_level = st.selectbox(
+    "Activity Level",
+    ["Sedentary", "Lightly active", "Moderately active", "Very active", "Extra active"]
+)
+goal = st.selectbox(
+    "Goal",
+    ["Lose Fat", "Maintain Weight", "Build Muscle"]
+)
+dietary_preference = st.selectbox("Dietary Preference", ["Regular", "Vegan", "Vegetarian", "Keto", "Paleo"])
+
+# Convert weight to kg and height to cm
+weight = weight_lb * 0.453592  # 1 lb = 0.453592 kg
+height = height_in * 2.54      # 1 inch = 2.54 cm
+
+# Calculate Basal Metabolic Rate (BMR)
+if gender == "Male":
+    bmr = 10 * weight + 6.25 * height - 5 * age + 5
+else:
+    bmr = 10 * weight + 6.25 * height - 5 * age - 161
+
+# Adjust BMR based on activity level
+activity_multiplier = {
+    "Sedentary": 1.2,
+    "Lightly active": 1.375,
+    "Moderately active": 1.55,
+    "Very active": 1.725,
+    "Extra active": 1.9
+}
+tdee = bmr * activity_multiplier[activity_level]
+
+# Adjust calories based on goal
+if goal == "Lose Fat":
+    calories = tdee - 500
+elif goal == "Build Muscle":
+    calories = tdee + 500
+else:
+    calories = tdee
+
+st.subheader(f"Your daily calorie needs: {calories:.0f} kcal")
+
+# Macro breakdown
+protein = 2.0 * weight  # 2g per kg of weight
+fat = 0.8 * weight  # 0.8g per kg of weight
+carbs = (calories - (protein * 4 + fat * 9)) / 4
+
+st.subheader("Your Daily Macronutrient Targets")
+st.write(f"Protein: {protein:.0f}g")
+st.write(f"Fat: {fat:.0f}g")
+st.write(f"Carbs: {carbs:.0f}g")
+
+# AI Meal Plan Generation
+st.header("AI-Generated Meal Plan")
 
 if st.button("Generate Meal Plan"):
     # Together.ai API configuration
