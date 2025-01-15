@@ -93,7 +93,7 @@ if st.button("Generate Meal Plan"):
             "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions that are clear and easy to follow. "
             "Provide approximate cooking times and tips for beginners where relevant."
         )
-        max_tokens = 260 * 2  # 260 tokens per recipe, 2 recipes
+        max_tokens = 250 * 2  # 260 tokens per recipe, 2 recipes
 
     try:
         response = client.chat.completions.create(
@@ -119,4 +119,3 @@ if st.button("Generate Meal Plan"):
 
     except Exception as e:
         st.error(f"Unexpected error: {e}")
-
