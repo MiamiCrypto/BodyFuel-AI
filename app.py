@@ -50,6 +50,14 @@ workout_multiplier = {
 }
 tdee = bmr * workout_multiplier[worked_out_today]
 
+# Adjust calories based on goal
+if goal == "Lose Fat":
+    calories = tdee - 500
+elif goal == "Build Muscle":
+    calories = tdee + 500
+else:
+    calories = tdee
+
 st.subheader(f"Your daily calorie needs: {calories:.0f} kcal")
 
 # Macro breakdown
