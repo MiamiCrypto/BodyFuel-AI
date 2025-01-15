@@ -4,6 +4,9 @@ from together import Together
 # Set up the Streamlit app
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
+# Display logo at the top
+st.image("body-fuel-logo.png", width=250)
+
 # Title and description
 st.title("BodyFuel AI - Macro Calculator & Meal Planner")
 st.write("An AI-powered app to help you calculate your macros, generate meal plans, and create grocery lists tailored to your fitness goals.")
