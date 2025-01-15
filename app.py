@@ -75,16 +75,16 @@ if st.button("Generate Meal Plan"):
     # API request parameters
     model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
     prompt = (
-        f"You are a professional nutrition assistant. Generate 3 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
+        f"You are a professional nutrition assistant. Generate exactly 3 {meal_type.lower()} recipe options for a person whose goal is {goal.lower()}, "
         f"with a daily caloric intake of {calories:.0f} kcal. The meal plan should be suitable for a {dietary_preference.lower()} diet. "
-        "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions."
+        "Each recipe should include a short description, the list of ingredients, and step-by-step preparation instructions. Please keep the responses concise."
     )
 
     try:
         response = client.chat.completions.create(
             model=model,
             messages=[{"role": "system", "content": prompt}],
-            max_tokens=512,
+            max_tokens=700,
             temperature=0.7,
             top_p=0.7,
             top_k=50,
