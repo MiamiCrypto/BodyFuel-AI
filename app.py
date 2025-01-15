@@ -109,4 +109,3 @@ if st.button("Generate Meal Plan"):
 
     except Exception as e:
         st.error(f"Unexpected error: {e}")
-
