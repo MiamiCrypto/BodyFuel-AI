@@ -4,8 +4,12 @@ from together import Together
 # Set up the Streamlit app
 st.set_page_config(page_title="BodyFuel AI", layout="centered")
 
-# Display logo at the top (centered and resized)
-st.image("body-fuel-logo.png", width=500, caption="BodyFuel AI Logo")
+# Create empty columns for centering
+col1, col2, col3 = st.columns([1, 2, 1])
+
+# Use the middle column to display the image
+with col2:
+    st.image("body-fuel-logo.png", width=500, caption="BodyFuel AI Logo")
 
 # Title and description
 st.title("BodyFuel AI - Macro Calculator & Meal Planner")
