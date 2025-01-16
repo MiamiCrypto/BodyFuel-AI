@@ -111,7 +111,7 @@ if st.button("Generate Meal Plan"):
         response = client.chat.completions.create(
             model="meta-llama/Meta-Llama-3-8B-Instruct-Turbo",
             messages=[{"role": "system", "content": prompt}],
-            max_tokens=max_tokens,
+            max_tokens=512,
             temperature=0.8,
             top_p=0.85,
             top_k=60,
